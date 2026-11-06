@@ -1,16 +1,18 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClipboardList, Funnel } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { deleteOrder } from "../services/api";
+import { deleteOrder, getCategories } from "../services/api";
 import { useNotifier } from "../components/AppNotifier";
 import AppHeader from "../components/AppHeader";
 import OrderItem from "../components/OrderItem";
+import OrderFilterCarousels from "../components/OrderFilterCarousels";
 import OrderFiltersModal from "../components/OrderFiltersModal";
 import PullToRefresh from "../components/PullToRefresh";
 import PrimaryButton from "../components/PrimaryButton";
+import type { CategoryType } from "../types/category";
 import { defaultOrderFilters, type OrderFiltersState } from "../types/order";
-import { filterOrders, hasActiveOrderFilters } from "../utils/orderUtils";
+import { filterOrders, hasActiveOrderFilters, mergeOrderCategories } from "../utils/orderUtils";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { removeOrder, requestLiveRefresh } from "../store/liveSlice";
 
@@ -25,9 +27,23 @@ const OrderScreen = () => {
   const [isFiltersVisible, setFiltersVisible] = useState(false);
   const [visibleGeoId, setVisibleGeoId] = useState<number | null>(null);
   const [deletingOrderId, setDeletingOrderId] = useState<number | null>(null);
+  const [allCategories, setAllCategories] = useState<CategoryType[]>([]);
 
+  const categories = useMemo(
+    () => mergeOrderCategories(allCategories, orders),
+    [allCategories, orders]
+  );
   const filteredOrders = useMemo(() => filterOrders(orders, filters), [orders, filters]);
   const filtersActive = hasActiveOrderFilters(filters);
+
+  useEffect(() => {
+    void (async () => {
+      const { response } = await getCategories();
+      if (response?.data) {
+        setAllCategories(response.data);
+      }
+    })();
+  }, []);
 
   const handleDeleteOrder = useCallback(
     async (orderId: number) => {
@@ -63,6 +79,11 @@ const OrderScreen = () => {
           </button>
         }
       />
+      <OrderFilterCarousels
+        filters={filters}
+        categories={categories}
+        onChange={(next) => setFilters((prev) => ({ ...prev, ...next }))}
+      />
       {initialLoading && orders.length === 0 ? (
         <div className="loader">
           <span className="spinner" />
@@ -97,7 +118,7 @@ const OrderScreen = () => {
       )}
       <OrderFiltersModal
         isVisible={isFiltersVisible}
-        orders={orders}
+        categories={categories}
         filters={filters}
         onClose={() => setFiltersVisible(false)}
         onApply={setFilters}
