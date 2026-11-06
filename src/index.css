@@ -143,6 +143,7 @@ img {
 }
 
 .screen {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -344,6 +345,12 @@ img {
 .btn-danger {
   background: var(--error);
   color: #fff;
+}
+
+.btn-danger-outline {
+  background: var(--surface);
+  color: var(--error);
+  border: 1px solid var(--error);
 }
 
 .btn:disabled {
@@ -611,6 +618,8 @@ img {
   outline: none;
   font-size: 16px;
   min-height: 48px;
+  height: 100%;
+  line-height: 48px;
   background: transparent;
   color: var(--text);
 }
@@ -643,19 +652,34 @@ img {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  padding: 8px 16px 24px;
+  padding: 8px 16px 88px;
 }
 
 .place-order-bar {
-  flex-shrink: 0;
-  padding: 8px 16px 12px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  background: none;
+  padding: 0;
 }
 
 .place-order-bar .btn {
-  display: flex;
+  width: auto;
+  min-width: 0;
+  flex: 0 0 auto;
+  pointer-events: auto;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 14px 22px;
+  border-radius: 999px;
+  white-space: nowrap;
   box-shadow: 0 10px 24px rgba(0, 101, 109, 0.28);
 }
 
@@ -1042,9 +1066,9 @@ img {
   justify-content: center;
   margin-top: 16px;
   padding: 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid #fecaca;
-  background: #fef2f2;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--error);
+  background: var(--surface);
   color: var(--error);
   font-weight: 600;
 }
@@ -1105,16 +1129,29 @@ img {
   background: var(--input-bg);
 }
 
-.fake-marker {
+.map-pin {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 24px;
-  height: 24px;
-  margin-left: -12px;
-  margin-top: -24px;
+  width: 22px;
+  height: 22px;
+  margin-left: -11px;
+  margin-top: -28px;
+  background: var(--primary);
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.28);
   pointer-events: none;
   z-index: 500;
+}
+
+.map-pin::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  background: #fff;
+  border-radius: 50%;
 }
 
 .chat-list {
@@ -1840,22 +1877,39 @@ html[dir="rtl"] .bubble.in {
   flex-direction: column;
 }
 
+.auth-body:not(:has(.auth-footnote)) {
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+}
+
 .auth-hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin-bottom: 8px;
+  min-height: 0;
 }
 
 .auth-hero-icon {
+  flex-shrink: 0;
   width: 88px;
   height: 88px;
   border-radius: 28px;
-  margin: 20px auto 18px;
+  margin: 0 auto 18px;
   background: var(--surface);
   color: var(--primary);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 16px 40px rgba(0, 101, 109, 0.14);
+}
+
+.auth-hero-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  object-fit: cover;
 }
 
 .auth-title {
@@ -1872,7 +1926,9 @@ html[dir="rtl"] .bubble.in {
 }
 
 .auth-card {
-  margin-top: 24px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
   padding: 20px;
   background: var(--surface);
   border-radius: var(--radius-xl);
@@ -1921,6 +1977,8 @@ html.keyboard-open .input-bar {
 }
 
 .phone-input-lg {
+  display: flex;
+  align-items: center;
   margin-bottom: 16px;
   min-height: 56px;
   border-radius: var(--radius-lg);
@@ -1936,6 +1994,7 @@ html.keyboard-open .input-bar {
 .otp-input {
   width: 100%;
   min-height: 64px;
+  line-height: 64px;
   margin-bottom: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);

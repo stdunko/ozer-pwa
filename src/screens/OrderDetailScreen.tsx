@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ClipboardList, MessageCircle, Trash2 } from "lucide-react";
+import { ClipboardList, MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { deleteOrder } from "../services/api";
 import { useNotifier } from "../components/AppNotifier";
@@ -156,8 +156,8 @@ const OrderDetailScreen = () => {
                 </button>
               ) : null}
               {canDeleteOrder(order) ? (
-                <button type="button" className="btn btn-danger" disabled={deleting} onClick={() => setConfirmDelete(true)}>
-                  {deleting ? <span className="spinner" /> : <><Trash2 size={18} /> {t("deleteOrder")}</>}
+                <button type="button" className="btn btn-danger-outline" disabled={deleting} onClick={() => setConfirmDelete(true)}>
+                  {deleting ? <span className="spinner" /> : t("deleteOrder")}
                 </button>
               ) : null}
             </div>

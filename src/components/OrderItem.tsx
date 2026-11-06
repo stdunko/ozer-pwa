@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronRight, MessageCircle, MapPin, Trash2 } from "lucide-react";
+import { ChevronRight, MessageCircle, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../store/hooks";
 import type { Order } from "../types/order";
@@ -125,11 +125,11 @@ const OrderItem = ({
       {canDeleteOrder(item) ? (
         <button
           type="button"
-          className="delete-btn"
+          className="btn btn-danger-outline delete-btn"
           disabled={isDeleting}
           onClick={() => setConfirmDelete(true)}
         >
-          {isDeleting ? <span className="spinner" /> : <><Trash2 size={18} /> {t("deleteOrder")}</>}
+          {isDeleting ? <span className="spinner" /> : t("deleteOrder")}
         </button>
       ) : null}
       <ExecutorGeo

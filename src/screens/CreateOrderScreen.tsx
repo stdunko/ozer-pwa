@@ -111,6 +111,7 @@ const CreateOrderScreen = () => {
             <MapView
               latitude={latitude}
               longitude={longitude}
+              centerPin
               onRegionChange={(region) => {
                 setLatitude(region.latitude);
                 setLongitude(region.longitude);
@@ -121,7 +122,6 @@ const CreateOrderScreen = () => {
               <span className="spinner" />
             </div>
           )}
-          <img className="fake-marker" src="/maps-and-flags.png" alt="" />
         </div>
         <div className="pad">
           <button
