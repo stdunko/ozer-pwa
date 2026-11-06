@@ -32,6 +32,7 @@ export default {
   createOrder: "Создать заказ",
   placeOrder: "Разместить заказ",
   openOrder: "К заказу",
+  goToChat: "Написать",
   selectCategory: "Выберите категорию",
   changeCategory: "Сменить категорию",
   close: "Закрыть",

@@ -32,6 +32,7 @@ export default {
   createOrder: "إنشاء النظام",
   placeOrder: "نشر طلب",
   openOrder: "عرض الطلب",
+  goToChat: "مراسلة",
   selectCategory: "اختر فئة",
   changeCategory: "تغيير الفئة",
   close: "إغلاق",

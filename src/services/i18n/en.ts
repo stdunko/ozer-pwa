@@ -32,6 +32,7 @@ export default {
   createOrder: "Create order",
   placeOrder: "Place an order",
   openOrder: "View order",
+  goToChat: "Message",
   selectCategory: "Select a category",
   changeCategory: "Change category",
   close: "Close",

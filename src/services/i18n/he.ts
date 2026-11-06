@@ -32,6 +32,7 @@ export default {
   createOrder: "צור הזמנה",
   placeOrder: "פרסם הזמנה",
   openOrder: "להזמנה",
+  goToChat: "הודעה",
   selectCategory: "בחירת קטגוריה",
   changeCategory: "החלפת קטגוריה",
   close: "סגור",
