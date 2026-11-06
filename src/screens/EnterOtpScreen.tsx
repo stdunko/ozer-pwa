@@ -55,8 +55,13 @@ const EnterOtpScreen = () => {
             setOtp(e.target.value);
             if (hasOtpError) setHasOtpError(false);
           }}
+          type="text"
+          lang="en"
           autoComplete="one-time-code"
-          inputMode="numeric"
+          autoCapitalize="none"
+          autoCorrect="off"
+          spellCheck={false}
+          inputMode="text"
           error={hasOtpError}
           style={{ textAlign: "center" }}
         />

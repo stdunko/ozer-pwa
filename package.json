@@ -19,6 +19,7 @@
     "axios": "^1.7.9",
     "express": "^4.21.2",
     "firebase": "^11.2.0",
+    "flag-icons": "^7.6.0",
     "http-proxy-middleware": "^3.0.3",
     "i18next": "^24.2.2",
     "leaflet": "^1.9.4",
