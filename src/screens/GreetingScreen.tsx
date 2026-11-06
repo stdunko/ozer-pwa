@@ -9,16 +9,16 @@ const GreetingScreen = () => {
 
   return (
     <div className="screen screen-surface">
-      <AppHeader title="Ozer" />
+      <AppHeader
+        title="Ozeril"
+        avatar={<img src="/logo.png" alt="" className="header-brand-logo" />}
+      />
       <div className="pad-lg greeting-body">
         <div className="center-col">
-          <img src="/logo.png" alt="Ozer" className="logo" />
+          <img src="/logo.png" alt="Ozeril" className="logo" />
           <p className="tagline">{t("logInFooterText")}</p>
         </div>
         <PrimaryButton title={t("logInButtonText")} onPress={() => navigate("/login/phone")} />
-        <div style={{ textAlign: "center", padding: "24px 0 8px" }}>
-          <img src="/favicon.png" alt="" width={36} height={36} style={{ opacity: 0.6, borderRadius: 8 }} />
-        </div>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ precacheAndRoute(self.__WB_MANIFEST);
 cleanupOutdatedCaches();
 
 self.addEventListener("push", (event) => {
-  let payload = { title: "Ozer", body: "", url: "/app/orders" };
+  let payload = { title: "Ozeril", body: "", url: "/app/orders" };
   try {
     payload = { ...payload, ...event.data.json() };
   } catch {
@@ -15,7 +15,7 @@ self.addEventListener("push", (event) => {
   }
 
   event.waitUntil(
-    self.registration.showNotification(payload.title || "Ozer", {
+    self.registration.showNotification(payload.title || "Ozeril", {
       body: payload.body || "",
       icon: "/icon-192.png",
       badge: "/icon-192.png",

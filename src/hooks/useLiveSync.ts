@@ -57,7 +57,7 @@ export const useLiveSync = () => {
         reportOrderStatusChanges(ordersRef.current, nextOrders, ({ categoryName, statusKey }) => {
           const message = t("orderStatusUpdated", { category: categoryName, status: t(statusKey) });
           showInfo(message);
-          notifyIfHidden(categoryName || "Ozer", t(statusKey), "/app/orders");
+          notifyIfHidden(categoryName || "Ozeril", t(statusKey), "/app/orders");
         });
       }
       dispatch(setOrders(nextOrders));
