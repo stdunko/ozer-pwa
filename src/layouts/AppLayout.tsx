@@ -7,6 +7,7 @@ const hideTabBarOn = (pathname: string) =>
   Boolean(
     matchPath({ path: "/app/chats/:chatId", end: true }, pathname) ||
       matchPath({ path: "/app/create-order", end: true }, pathname) ||
+      matchPath({ path: "/app/orders/:orderId", end: true }, pathname) ||
       matchPath({ path: "/app/about", end: true }, pathname)
   );
 

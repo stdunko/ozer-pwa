@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate, Navigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { FileText, LayoutGrid, Wallet } from "lucide-react";
-import { addOrder } from "../services/api";
+import { ChevronDown, FileText, LayoutGrid, Wallet } from "lucide-react";
+import { addOrder, getCategories } from "../services/api";
 import { useAppSelector } from "../store/hooks";
 import { useNotifier } from "../components/AppNotifier";
 import { appConfig } from "../config";
 import type { CategoryType } from "../types/category";
 import AppHeader from "../components/AppHeader";
 import AppTextInput from "../components/AppTextInput";
+import CategoryPicker from "../components/CategoryPicker";
 import PrimaryButton from "../components/PrimaryButton";
 import NameModal from "../components/NameModal";
 import MapView from "../components/MapView";
@@ -20,15 +21,34 @@ const CreateOrderScreen = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const category = (location.state as { category?: CategoryType } | null)?.category;
+  const initialCategory = (location.state as { category?: CategoryType } | null)?.category ?? null;
   const { showApiError, showSuccess, showInfo } = useNotifier();
   const user = useAppSelector((state) => state.user);
+  const [category, setCategory] = useState<CategoryType | null>(initialCategory);
+  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [price, setPrice] = useState<number | null>(null);
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [nameModalVisible, setNameModalVisible] = useState(false);
+
+  useEffect(() => {
+    void (async () => {
+      const { response, error } = await getCategories();
+      if (error) {
+        showApiError(error, "errorLoadCategories");
+        return;
+      }
+      if (response?.data) {
+        const sorted = [...response.data].sort((a: CategoryType, b: CategoryType) =>
+          a.name.localeCompare(b.name)
+        );
+        setCategories(sorted);
+      }
+    })();
+  }, [showApiError]);
 
   useEffect(() => {
     if (!navigator.geolocation) {
@@ -51,13 +71,9 @@ const CreateOrderScreen = () => {
     );
   }, [showInfo]);
 
-  if (!category) {
-    return <Navigate to="/app/categories" replace />;
-  }
-
   const submitOrder = async () => {
-    if (!hasValidCoords(latitude, longitude)) {
-      showApiError(new Error("invalid coordinates"), "errorCreateOrder");
+    if (!category || !hasValidCoords(latitude, longitude)) {
+      showApiError(new Error("invalid order"), "errorCreateOrder");
       return;
     }
     setIsLoading(true);
@@ -88,7 +104,7 @@ const CreateOrderScreen = () => {
 
   return (
     <div className="screen">
-      <AppHeader title={category.name} back />
+      <AppHeader title={category?.name || t("createOrder")} back />
       <div className="scroll">
         <div className="map-wrap">
           {latitude != null && longitude != null ? (
@@ -108,7 +124,17 @@ const CreateOrderScreen = () => {
           <img className="fake-marker" src="/maps-and-flags.png" alt="" />
         </div>
         <div className="pad">
-          <AppTextInput icon={LayoutGrid} value={category.name} readOnly />
+          <button
+            type="button"
+            className={`field-btn ${category ? "" : "placeholder"}`}
+            onClick={() => setPickerOpen(true)}
+          >
+            <span className="field-icon">
+              <LayoutGrid size={20} />
+            </span>
+            <span>{category?.name || t("selectCategory")}</span>
+            <ChevronDown size={18} />
+          </button>
           <AppTextInput
             icon={Wallet}
             placeholder={t("price")}
@@ -131,10 +157,17 @@ const CreateOrderScreen = () => {
             title={t("createOrder")}
             onPress={onPress}
             loading={isLoading}
-            disabled={!price || !description || !hasValidCoords(latitude, longitude)}
+            disabled={!category || !price || !description || !hasValidCoords(latitude, longitude)}
           />
         </div>
       </div>
+      <CategoryPicker
+        isVisible={pickerOpen}
+        categories={categories}
+        selectedId={category?.id}
+        onSelect={setCategory}
+        onClose={() => setPickerOpen(false)}
+      />
       <NameModal
         isVisible={nameModalVisible}
         onClose={() => setNameModalVisible(false)}

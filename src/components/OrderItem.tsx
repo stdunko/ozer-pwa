@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MessageCircle, MapPin, Trash2 } from "lucide-react";
+import { ChevronRight, MessageCircle, MapPin, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../store/hooks";
 import type { Order } from "../types/order";
@@ -14,6 +14,7 @@ type OrderItemProps = {
   setVisibleGeoId: (id: number | null) => void;
   onMessagePress?: (chat: unknown) => void;
   onDeletePress?: (orderId: number) => void;
+  onOpen?: () => void;
   isDeleting?: boolean;
 };
 
@@ -25,6 +26,7 @@ const OrderItem = ({
   setVisibleGeoId,
   onMessagePress,
   onDeletePress,
+  onOpen,
   isDeleting = false,
 }: OrderItemProps) => {
   const { t, i18n } = useTranslation();
@@ -71,10 +73,20 @@ const OrderItem = ({
   return (
     <div className="order-card">
       <div className="order-top">
-        <div>
-          <div className="order-no">{t("orderNumber", { n: item.id })}</div>
-          <div className="order-cat">{item.category.name}</div>
-        </div>
+        {onOpen ? (
+          <button type="button" className="order-open" onClick={onOpen} aria-label={t("openOrder")}>
+            <span>
+              <div className="order-no">{t("orderNumber", { n: item.id })}</div>
+              <div className="order-cat">{item.category.name}</div>
+            </span>
+            <ChevronRight size={18} className="order-open-chevron" />
+          </button>
+        ) : (
+          <div>
+            <div className="order-no">{t("orderNumber", { n: item.id })}</div>
+            <div className="order-cat">{item.category.name}</div>
+          </div>
+        )}
         <span className={`badge ${statusClass}`}>{statusLabel}</span>
       </div>
       {createdAtLabel ? (

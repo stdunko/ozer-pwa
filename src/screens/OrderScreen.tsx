@@ -88,6 +88,7 @@ const OrderScreen = () => {
                 setVisibleGeoId={setVisibleGeoId}
                 isDeleting={deletingOrderId === item.id}
                 onDeletePress={handleDeleteOrder}
+                onOpen={() => navigate(`/app/orders/${item.id}`)}
                 onMessagePress={(chat) => navigate("/app/chats/" + (chat as { id: string }).id, { state: { chat } })}
               />
             ))

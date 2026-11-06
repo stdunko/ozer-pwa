@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { getCategories } from "../services/api";
 import type { CategoryType } from "../types/category";
 import { useNotifier } from "../components/AppNotifier";
@@ -79,6 +79,12 @@ const HomeScreen = () => {
           )}
         </div>
       )}
+      <div className="place-order-bar">
+        <button type="button" className="btn btn-primary" onClick={() => navigate("/app/create-order")}>
+          <Plus size={20} />
+          {t("placeOrder")}
+        </button>
+      </div>
     </div>
   );
 };
