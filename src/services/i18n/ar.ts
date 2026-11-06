@@ -96,6 +96,7 @@ export default {
   onboardingSlide3Desc: "تواصل مع المنفذ مباشرة في التطبيق",
   locationDenied: "الموقع غير متاح. حدد النقطة على الخريطة يدوياً.",
   installApp: "تثبيت التطبيق",
+  installAdd: "إضافة",
   installTitle: "إضافة إلى الشاشة الرئيسية",
   installLeadAndroid: "ثبّت التطبيق لفتحه من الشاشة الرئيسية — دون شريط المتصفح.",
   installLeadIos: "أضف التطبيق إلى الشاشة الرئيسية ليفتح كتطبيق عادي.",
