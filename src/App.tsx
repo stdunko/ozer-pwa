@@ -20,6 +20,7 @@ import OrderScreen from "./screens/OrderScreen";
 import ChatListScreen from "./screens/ChatListScreen";
 import ChatScreen from "./screens/ChatScreen";
 import AboutScreen from "./screens/AboutScreen";
+import InstallBanner from "./components/InstallBanner";
 
 const SwNavigation = () => {
   const navigate = useNavigate();
@@ -80,11 +81,17 @@ const App = () => {
   }, [dispatch, token, showApiError]);
 
   if (showOnboarding) {
-    return <OnboardingScreen onComplete={() => setShowOnboarding(false)} />;
+    return (
+      <>
+        <InstallBanner />
+        <OnboardingScreen onComplete={() => setShowOnboarding(false)} />
+      </>
+    );
   }
 
   return (
     <>
+    <InstallBanner />
     <SwNavigation />
     <Routes>
       {!token ? (

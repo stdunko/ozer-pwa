@@ -1303,6 +1303,55 @@ html[dir="rtl"] .bubble.in {
   font-size: 14px;
 }
 
+.install-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  align-items: end;
+  justify-items: center;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.48);
+}
+
+.install-sheet {
+  width: min(28rem, 100%);
+  border-radius: 24px;
+  padding: 22px 18px 16px;
+  background: var(--surface);
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.22);
+}
+
+.install-sheet h2 {
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.install-sheet p {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.install-steps {
+  margin: 0 0 16px;
+  padding-inline-start: 1.2rem;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.install-steps li + li {
+  margin-top: 6px;
+}
+
+.install-sheet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .hidden-file {
   display: none;
 }
