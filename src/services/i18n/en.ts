@@ -36,6 +36,8 @@ export default {
   photoUpdated: "Photo updated",
   errorUploadPhoto: "Could not upload the photo.",
   yourChatsEmpty: "Your chat list is empty",
+  searchChats: "Search by name or message",
+  chatsNotFound: "No chats found",
   yourOrdersEmpty: "Your order list is empty",
   closeGeo: "Close",
   nameModalText: "Enter your name and email to place an order",

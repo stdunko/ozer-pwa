@@ -36,6 +36,8 @@ export default {
   photoUpdated: "התמונה עודכנה",
   errorUploadPhoto: "לא ניתן להעלות את התמונה.",
   yourChatsEmpty: "רשימת הצ ' אט שלך ריקה",
+  searchChats: "חיפוש לפי שם או הודעה",
+  chatsNotFound: "לא נמצאו צ'אטים",
   yourOrdersEmpty: "רשימת ההזמנות שלך ריקה",
   closeGeo: "סגור",
   nameModalText: "הזינו שם ואימייל כדי לבצע הזמנה",

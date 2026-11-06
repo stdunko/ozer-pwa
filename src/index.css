@@ -568,6 +568,10 @@ img {
   padding: 16px 16px 8px;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -987,7 +991,7 @@ html[dir="rtl"] .bubble.in {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.45);
-  z-index: 40;
+  z-index: 80;
   display: flex;
   align-items: flex-end;
   justify-content: center;

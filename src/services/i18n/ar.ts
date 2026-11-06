@@ -36,6 +36,8 @@ export default {
   photoUpdated: "تم تحديث الصورة",
   errorUploadPhoto: "تعذر رفع الصورة.",
   yourChatsEmpty: "قائمة الدردشة الخاصة بك فارغة",
+  searchChats: "بحث بالاسم أو الرسالة",
+  chatsNotFound: "لا توجد دردشات",
   yourOrdersEmpty: "قائمة الطلبات الخاصة بك فارغة",
   closeGeo: "إغلاق",
   nameModalText: "أدخل الاسم والبريد الإلكتروني لإنشاء طلب",

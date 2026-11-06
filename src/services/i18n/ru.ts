@@ -36,6 +36,8 @@ export default {
   photoUpdated: "Фото обновлено",
   errorUploadPhoto: "Не удалось загрузить фото.",
   yourChatsEmpty: "Ваш список чатов пуст",
+  searchChats: "Поиск по имени или сообщению",
+  chatsNotFound: "Чаты не найдены",
   yourOrdersEmpty: "Ваш список заказов пуст",
   closeGeo: "Закрыть",
   nameModalText: "Введите имя и почту чтобы сделать заказ",
