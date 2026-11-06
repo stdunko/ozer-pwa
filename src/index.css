@@ -97,10 +97,6 @@ img {
   overflow: hidden;
 }
 
-.has-tabbar .app-layout-body {
-  padding-bottom: calc(var(--tab-h) + var(--safe-bottom));
-}
-
 .screen {
   flex: 1;
   display: flex;
@@ -228,10 +224,6 @@ img {
 }
 
 .tabbar {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
   z-index: 30;
   height: calc(var(--tab-h) + var(--safe-bottom));
   padding-bottom: var(--safe-bottom);
@@ -923,6 +915,7 @@ html[dir="rtl"] .bubble.in {
 }
 
 .input-bar {
+  flex-shrink: 0;
   background: var(--surface);
   border-top: 1px solid var(--border);
   padding: 8px 16px calc(8px + var(--safe-bottom));
@@ -1553,6 +1546,10 @@ html[dir="rtl"] .bubble.in {
   box-shadow: var(--shadow);
 }
 
+.profile-card + .profile-card {
+  margin-top: 12px;
+}
+
 .profile-card .field:last-child {
   margin-bottom: 12px;
 }
@@ -1561,7 +1558,37 @@ html[dir="rtl"] .bubble.in {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+.profile-actions .btn-primary {
+  min-height: 48px;
+  border-radius: 14px;
+}
+
+.profile-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
+}
+
+.profile-text-btn {
+  flex: 1;
+  min-height: 44px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.profile-text-btn:active {
+  background: var(--surface);
+}
+
+.profile-text-btn.danger {
+  color: var(--error);
 }
 
 .btn-logout {

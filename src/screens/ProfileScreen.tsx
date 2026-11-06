@@ -157,8 +157,14 @@ const ProfileScreen = () => {
             loading={saveLoading}
             disabled={saveLoading || !isFormChanged || name === ""}
           />
-          <PrimaryButton title={t("aboutTitle")} variant="secondary" onPress={() => navigate("/app/about")} />
-          <PrimaryButton title={t("logOut")} variant="secondary" onPress={() => setLogoutVisible(true)} className="btn-logout" />
+          <div className="profile-links">
+            <button type="button" className="profile-text-btn" onClick={() => navigate("/app/about")}>
+              {t("aboutTitle")}
+            </button>
+            <button type="button" className="profile-text-btn danger" onClick={() => setLogoutVisible(true)}>
+              {t("logOut")}
+            </button>
+          </div>
         </div>
       </div>
       {logoutVisible ? (
