@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setToken } from "./store/authSlice";
 import { setUser } from "./store/userSlice";
+import { resetLive } from "./store/liveSlice";
 import { getCurrentUser } from "./services/api";
 import { useNotifier } from "./components/AppNotifier";
 import { storage } from "./utils/storage";
@@ -44,11 +45,16 @@ const App = () => {
         if ((error as { response?: { status?: number } })?.response?.status === 401) {
           storage.remove("token");
           dispatch(setToken(""));
+          dispatch(resetLive());
         }
         return;
       }
       if (response?.data) {
-        dispatch(setUser(response.data));
+        const cachedPhoto = storage.get(`userPhoto:${response.data.id}`);
+        dispatch(setUser({
+          ...response.data,
+          photo: response.data.photo || cachedPhoto || null,
+        }));
       }
     })();
   }, [dispatch, token, showApiError]);

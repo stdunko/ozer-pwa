@@ -7,7 +7,8 @@ export type ChatParticipant = {
 
 export type Chat = {
   id: string;
-  participantsIds?: number[];
+  participantsIds?: Array<number | string>;
   participants?: ChatParticipant[];
   lastMessageTimestamp?: unknown;
+  lastMessageText?: string;
 };

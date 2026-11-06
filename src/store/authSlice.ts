@@ -1,11 +1,12 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { storage } from "../utils/storage";
 
 interface AuthState {
   token: string;
 }
 
 const initialState: AuthState = {
-  token: "",
+  token: storage.get("token") || "",
 };
 
 const authSlice = createSlice({

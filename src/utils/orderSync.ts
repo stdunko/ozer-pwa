@@ -1,6 +1,6 @@
 import type { Order, OrderStatus } from "../types/order";
 
-export const ORDERS_POLL_INTERVAL_MS = 20_000;
+export const ORDERS_POLL_INTERVAL_MS = 8_000;
 
 export const getOrderStatusLabelKey = (status: OrderStatus) => {
   if (status === "NEW") {

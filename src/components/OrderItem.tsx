@@ -7,6 +7,7 @@ import {
   getDoc,
   getDocs,
   query,
+  Timestamp,
   where,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -83,6 +84,7 @@ const OrderItem = ({
         { user_id: user.id, name: user.name },
         { executor_id: item.executor.id, name: item.executor.name || "No ext name" },
       ],
+      lastMessageTimestamp: Timestamp.now(),
     });
     const created = await getDoc(docRef);
     onMessagePress?.({ id: created.id, ...created.data() });

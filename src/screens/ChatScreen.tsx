@@ -105,7 +105,20 @@ const ChatScreen = () => {
       },
       (error) => console.error("Firestore messages:", error)
     );
-    return () => unsubscribe();
+
+    const reconnect = () => {
+      if (document.visibilityState === "visible") {
+        void markAsReadForRecipient();
+      }
+    };
+    document.addEventListener("visibilitychange", reconnect);
+    window.addEventListener("focus", reconnect);
+
+    return () => {
+      unsubscribe();
+      document.removeEventListener("visibilitychange", reconnect);
+      window.removeEventListener("focus", reconnect);
+    };
   }, [chatId, markAsReadForRecipient]);
 
   useEffect(() => {
@@ -156,6 +169,7 @@ const ChatScreen = () => {
       });
       await updateDoc(doc(db, "chats", chatId), {
         lastMessageTimestamp: Timestamp.fromDate(createdAt),
+        lastMessageText: payloadText || (imageToSend ? t("image") : ""),
       });
     } finally {
       setSendingIds((prev) => prev.filter((id) => id !== tempId));

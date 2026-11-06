@@ -93,6 +93,18 @@ export const updateUserInfo = async (
   return { error, response };
 };
 
+export const uploadBase64File = async (uploadBase64String: string) => {
+  let error;
+  let response;
+  try {
+    response = await api.post("/file/uploadFile", { uploadBase64String });
+  } catch (e) {
+    console.error("Error uploading file:", e);
+    error = e;
+  }
+  return { error, response };
+};
+
 export const addOrder = async (order: {
   userId: number;
   categoryId: number;
@@ -116,7 +128,10 @@ export const getMyOrders = async () => {
   let error;
   let response;
   try {
-    response = await api.get("/order/userOrders");
+    response = await api.get("/order/userOrders", {
+      headers: { "Cache-Control": "no-cache", Pragma: "no-cache" },
+      params: { _t: Date.now() },
+    });
   } catch (e) {
     error = e;
     console.error("Error getting orders:", e);

@@ -5,6 +5,7 @@ export interface UserState {
   name?: string | null;
   email?: string | null;
   phone: string;
+  photo?: string | null;
   status?: number;
 }
 
@@ -13,6 +14,7 @@ const initialState: UserState = {
   name: null,
   email: null,
   phone: "",
+  photo: null,
   status: 0,
 };
 
@@ -25,10 +27,15 @@ const userSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.phone = action.payload.phone;
+      state.photo =
+        action.payload.photo !== undefined ? action.payload.photo : (state.photo ?? null);
       state.status = action.payload.status;
+    },
+    setUserPhoto: (state, action: PayloadAction<string | null>) => {
+      state.photo = action.payload;
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setUserPhoto } = userSlice.actions;
 export default userSlice.reducer;
