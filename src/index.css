@@ -879,7 +879,8 @@ img {
   background: var(--input-bg);
 }
 
-.order-detail-map .leaflet-container {
+.order-detail-map .google-map-wrap,
+.order-detail-map .google-map {
   width: 100%;
   height: 100%;
 }
@@ -1057,9 +1058,51 @@ img {
   background: var(--input-bg);
 }
 
-.map-wrap .leaflet-container {
+.map-wrap .google-map-wrap,
+.map-wrap .google-map,
+.map-wrap .google-map-fallback {
   width: 100%;
   height: 100%;
+}
+
+.google-map-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.google-map {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.open-in-maps,
+.google-map-fallback {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.open-in-maps {
+  position: absolute;
+  inset-inline-end: 12px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.google-map-fallback {
+  height: 100%;
+  background: var(--input-bg);
 }
 
 .fake-marker {
@@ -1695,7 +1738,7 @@ html[dir="rtl"] .bubble.in {
   object-fit: contain;
 }
 
-.leaflet-container {
+.google-map {
   font-family: inherit;
 }
 

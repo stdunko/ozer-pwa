@@ -29,6 +29,7 @@ export default {
   orderStatus0: "ألغيت",
   executor: "المنفذ",
   openGeo: "فتح الموقع الجغرافي",
+  openInGoogleMaps: "فتح في خرائط Google",
   createOrder: "إنشاء النظام",
   placeOrder: "نشر طلب",
   openOrder: "عرض الطلب",

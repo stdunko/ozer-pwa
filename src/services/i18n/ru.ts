@@ -29,6 +29,7 @@ export default {
   orderStatus0: "Отменен",
   executor: "Исполнитель",
   openGeo: "Открыть геопозицию",
+  openInGoogleMaps: "Открыть в Google Картах",
   createOrder: "Создать заказ",
   placeOrder: "Разместить заказ",
   openOrder: "К заказу",

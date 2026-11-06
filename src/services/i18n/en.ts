@@ -29,6 +29,7 @@ export default {
   orderStatus0: "Cancelled",
   executor: "Executor",
   openGeo: "Open geolocation",
+  openInGoogleMaps: "Open in Google Maps",
   createOrder: "Create order",
   placeOrder: "Place an order",
   openOrder: "View order",

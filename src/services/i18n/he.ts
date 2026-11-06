@@ -29,6 +29,7 @@ export default {
   orderStatus0: "בוטל",
   executor: "מבצע",
   openGeo: "מיקום גיאוגרפי פתוח",
+  openInGoogleMaps: "פתח ב-Google Maps",
   createOrder: "צור הזמנה",
   placeOrder: "פרסם הזמנה",
   openOrder: "להזמנה",
