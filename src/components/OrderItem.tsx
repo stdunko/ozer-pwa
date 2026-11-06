@@ -1,19 +1,10 @@
 import { useState } from "react";
 import { MessageCircle, MapPin, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import {
-  addDoc,
-  collection,
-  getDoc,
-  getDocs,
-  query,
-  Timestamp,
-  where,
-} from "firebase/firestore";
-import { db } from "../firebase";
 import { useAppSelector } from "../store/hooks";
 import type { Order } from "../types/order";
 import { formatOrderDate } from "../utils/orderUtils";
+import { openOrCreateOrderChat } from "../utils/orderChat";
 import ExecutorGeo from "./ExecutorGeo";
 import PersonAvatar from "./PersonAvatar";
 
@@ -64,37 +55,26 @@ const OrderItem = ({
       return;
     }
 
-    const q = query(collection(db, "chats"), where("participantsIds", "array-contains", user.id));
-    const querySnapshot = await getDocs(q);
-    let chatData: Record<string, unknown> | null = null;
-    querySnapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      if ((data.participantsIds as number[]).includes(item.executor!.id)) {
-        chatData = { id: docSnap.id, ...data };
-      }
-    });
-
-    if (chatData) {
-      onMessagePress?.(chatData);
-      return;
-    }
-
-    const docRef = await addDoc(collection(db, "chats"), {
-      participantsIds: [user.id, item.executor.id],
+    const chatData = await openOrCreateOrderChat({
+      myId: user.id,
+      otherId: item.executor.id,
+      orderId: item.id,
+      orderCategory: item.category?.name,
       participants: [
         { user_id: user.id, name: user.name, photo: user.photo },
         { executor_id: item.executor.id, name: item.executor.name || "No ext name", photo: item.executor.photo },
       ],
-      lastMessageTimestamp: Timestamp.now(),
     });
-    const created = await getDoc(docRef);
-    onMessagePress?.({ id: created.id, ...created.data() });
+    onMessagePress?.(chatData);
   }
 
   return (
     <div className="order-card">
       <div className="order-top">
-        <div className="order-cat">{item.category.name}</div>
+        <div>
+          <div className="order-no">{t("orderNumber", { n: item.id })}</div>
+          <div className="order-cat">{item.category.name}</div>
+        </div>
         <span className={`badge ${statusClass}`}>{statusLabel}</span>
       </div>
       {createdAtLabel ? (

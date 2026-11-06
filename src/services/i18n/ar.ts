@@ -16,6 +16,7 @@ export default {
   logIn: "تسجيل الدخول",
   logOut: "تسجيل الخروج",
   chats: "الدردشات",
+  orderNumber: "طلب №{{n}}",
   specialists: "المتخصصين",
   price: "سعر ₪",
   description: "الوصف",

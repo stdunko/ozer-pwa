@@ -16,6 +16,7 @@ export default {
   logIn: "Log in",
   logOut: "Log out",
   chats: "Chats",
+  orderNumber: "Order #{{n}}",
   specialists: "Specialists",
   price: "Price ₪",
   description: "Description",

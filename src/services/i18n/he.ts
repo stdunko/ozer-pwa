@@ -16,6 +16,7 @@ export default {
   logIn: "התחבר",
   logOut: "התנתק",
   chats: "צ'אטים",
+  orderNumber: "הזמנה №{{n}}",
   specialists: "מומחים",
   price: "מחיר ₪",
   description: "תיאור",

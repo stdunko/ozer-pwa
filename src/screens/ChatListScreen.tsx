@@ -16,6 +16,8 @@ const chatSearchText = (chat: Chat, preview?: string) =>
     ...(chat.participants || []).map((member) => member.name || ""),
     chat.lastMessageText || "",
     preview || "",
+    chat.orderCategory || "",
+    chat.orderId != null ? String(chat.orderId) : "",
   ]
     .join(" ")
     .toLowerCase();

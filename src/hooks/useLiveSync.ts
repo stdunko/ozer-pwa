@@ -5,7 +5,8 @@ import { db } from "../firebase";
 import { getMyOrders } from "../services/api";
 import { useNotifier } from "../components/AppNotifier";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { resetLive, setChats, setChatsLoading, setOrders } from "../store/liveSlice";
+import { mergeChatUnread, resetLive, setChats, setChatsLoading, setOrders } from "../store/liveSlice";
+import { useChatUnreadSync } from "./useChatUnreadSync";
 import { setUserPhoto } from "../store/userSlice";
 import type { Chat } from "../types/chat";
 import type { Order } from "../types/order";
@@ -17,6 +18,29 @@ const mergeChats = (current: Chat[], incoming: Chat[]) => {
   const next = new Map(current.map((chat) => [chat.id, chat]));
   incoming.forEach((chat) => next.set(chat.id, chat));
   return [...next.values()].sort((a, b) => getChatTimestampMs(b) - getChatTimestampMs(a));
+};
+
+const unreadFromChats = (chats: Chat[], myId: number) => {
+  const map: Record<string, number> = {};
+  chats.forEach((chat) => {
+    if (chat.unread) {
+      const value = Number(chat.unread[myId] ?? chat.unread[String(myId)] ?? 0);
+      if (Number.isFinite(value)) {
+        map[chat.id] = value;
+        return;
+      }
+    }
+    const sender = chat.lastMessageUserId;
+    if (
+      sender != null &&
+      sender !== myId &&
+      String(sender) !== String(myId) &&
+      chat.lastMessageText
+    ) {
+      map[chat.id] = 1;
+    }
+  });
+  return map;
 };
 
 export const useLiveSync = () => {
@@ -113,7 +137,9 @@ export const useLiveSync = () => {
           chatBucketsRef.current[index] = snapshot.docs.map(
             (docSnap) => ({ id: docSnap.id, ...docSnap.data() }) as Chat
           );
-          dispatch(setChats(mergeChats(chatBucketsRef.current[0], chatBucketsRef.current[1])));
+          const merged = mergeChats(chatBucketsRef.current[0], chatBucketsRef.current[1]);
+          dispatch(setChats(merged));
+          dispatch(mergeChatUnread(unreadFromChats(merged, userId)));
         },
         (error) => {
           console.error("Firestore chats:", error);
@@ -145,4 +171,6 @@ export const useLiveSync = () => {
     refreshNonceRef.current = refreshNonce;
     void loadOrders(true);
   }, [loadOrders, refreshNonce, token]);
+
+  useChatUnreadSync(userId || undefined, "Ozeril");
 };
