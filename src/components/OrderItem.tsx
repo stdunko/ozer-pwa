@@ -3,6 +3,7 @@ import { ChevronRight, MessageCircle, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAppSelector } from "../store/hooks";
 import type { Order } from "../types/order";
+import { useCategoryLabel } from "../utils/categoryI18n";
 import { formatOrderDate } from "../utils/orderUtils";
 import { openOrCreateOrderChat } from "../utils/orderChat";
 import ExecutorGeo from "./ExecutorGeo";
@@ -30,6 +31,7 @@ const OrderItem = ({
   isDeleting = false,
 }: OrderItemProps) => {
   const { t, i18n } = useTranslation();
+  const cat = useCategoryLabel();
   const user = useAppSelector((state) => state.user);
   const createdAtLabel = formatOrderDate(item, i18n.language);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -74,20 +76,26 @@ const OrderItem = ({
     <div className="order-card">
       <div className="order-top">
         {onOpen ? (
-          <button type="button" className="order-open" onClick={onOpen} aria-label={t("openOrder")}>
-            <span>
-              <div className="order-no">{t("orderNumber", { n: item.id })}</div>
-              <div className="order-cat">{item.category.name}</div>
-            </span>
-            <ChevronRight size={18} className="order-open-chevron" />
+          <button type="button" className="order-no" onClick={onOpen}>
+            {t("orderNumber", { n: item.id })}
           </button>
         ) : (
-          <div>
-            <div className="order-no">{t("orderNumber", { n: item.id })}</div>
-            <div className="order-cat">{item.category.name}</div>
-          </div>
+          <div className="order-no">{t("orderNumber", { n: item.id })}</div>
         )}
         <span className={`badge ${statusClass}`}>{statusLabel}</span>
+        {onOpen ? (
+          <button type="button" className="order-cat" onClick={onOpen}>
+            {cat(item.category)}
+          </button>
+        ) : (
+          <div className="order-cat">{cat(item.category)}</div>
+        )}
+        {onOpen ? (
+          <button type="button" className="order-open-link" onClick={onOpen}>
+            {t("openOrder")}
+            <ChevronRight size={16} className="order-open-chevron" />
+          </button>
+        ) : null}
       </div>
       {createdAtLabel ? (
         <div className="muted">

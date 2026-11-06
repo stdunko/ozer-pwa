@@ -23,7 +23,7 @@ export default {
   name: "שם",
   phone: "טלפון",
   confirm: "אישור",
-  orderStatus1: "מחפש מבצע",
+  orderStatus1: "חדש",
   orderStatus2: "בעבודה",
   orderStatus3: "הושלם",
   orderStatus0: "בוטל",

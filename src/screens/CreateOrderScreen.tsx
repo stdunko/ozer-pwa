@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ChevronDown, FileText, LayoutGrid, Wallet } from "lucide-react";
@@ -13,12 +13,14 @@ import CategoryPicker from "../components/CategoryPicker";
 import PrimaryButton from "../components/PrimaryButton";
 import NameModal from "../components/NameModal";
 import MapView from "../components/MapView";
+import { useCategoryLabel } from "../utils/categoryI18n";
 
 const hasValidCoords = (lat: number | null, lng: number | null) =>
   lat != null && lng != null && Number.isFinite(lat) && Number.isFinite(lng) && !(lat === 0 && lng === 0);
 
 const CreateOrderScreen = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const cat = useCategoryLabel();
   const navigate = useNavigate();
   const location = useLocation();
   const initialCategory = (location.state as { category?: CategoryType } | null)?.category ?? null;
@@ -33,6 +35,10 @@ const CreateOrderScreen = () => {
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [nameModalVisible, setNameModalVisible] = useState(false);
+  const sortedCategories = useMemo(
+    () => [...categories].sort((a, b) => cat(a).localeCompare(cat(b), i18n.language)),
+    [cat, categories, i18n.language]
+  );
 
   useEffect(() => {
     void (async () => {
@@ -42,10 +48,7 @@ const CreateOrderScreen = () => {
         return;
       }
       if (response?.data) {
-        const sorted = [...response.data].sort((a: CategoryType, b: CategoryType) =>
-          a.name.localeCompare(b.name)
-        );
-        setCategories(sorted);
+        setCategories(response.data);
       }
     })();
   }, [showApiError]);
@@ -104,7 +107,7 @@ const CreateOrderScreen = () => {
 
   return (
     <div className="screen">
-      <AppHeader title={category?.name || t("createOrder")} back />
+      <AppHeader title={category ? cat(category) : t("createOrder")} back />
       <div className="scroll">
         <div className="map-wrap">
           {latitude != null && longitude != null ? (
@@ -132,7 +135,7 @@ const CreateOrderScreen = () => {
             <span className="field-icon">
               <LayoutGrid size={20} />
             </span>
-            <span>{category?.name || t("selectCategory")}</span>
+            <span>{category ? cat(category) : t("selectCategory")}</span>
             <ChevronDown size={18} />
           </button>
           <AppTextInput
@@ -163,7 +166,7 @@ const CreateOrderScreen = () => {
       </div>
       <CategoryPicker
         isVisible={pickerOpen}
-        categories={categories}
+        categories={sortedCategories}
         selectedId={category?.id}
         onSelect={setCategory}
         onClose={() => setPickerOpen(false)}

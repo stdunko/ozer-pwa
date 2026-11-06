@@ -23,7 +23,7 @@ export default {
   name: "الاسم",
   phone: "الهاتف",
   confirm: "تأكيد",
-  orderStatus1: "تبحث عن فنان",
+  orderStatus1: "جديد",
   orderStatus2: "في العمل",
   orderStatus3: "اكتمل",
   orderStatus0: "ألغيت",

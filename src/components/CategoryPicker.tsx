@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Search, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { CategoryType } from "../types/category";
+import { useCategoryLabel } from "../utils/categoryI18n";
 import AppTextInput from "./AppTextInput";
 import CategoryIcon from "./CategoryIcon";
 
@@ -16,6 +17,7 @@ type CategoryPickerProps = {
 
 const CategoryPicker = ({ isVisible, categories, selectedId, onSelect, onClose }: CategoryPickerProps) => {
   const { t } = useTranslation();
+  const cat = useCategoryLabel();
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -29,8 +31,11 @@ const CategoryPicker = ({ isVisible, categories, selectedId, onSelect, onClose }
     if (!query) {
       return categories;
     }
-    return categories.filter((item) => item.name.toLowerCase().includes(query));
-  }, [categories, search]);
+    return categories.filter((item) => {
+      const label = cat(item).toLowerCase();
+      return label.includes(query) || item.name.toLowerCase().includes(query);
+    });
+  }, [cat, categories, search]);
 
   if (!isVisible) {
     return null;
@@ -72,7 +77,7 @@ const CategoryPicker = ({ isVisible, categories, selectedId, onSelect, onClose }
                   <span className="picker-row-icon">
                     <CategoryIcon iconUrl={item.icon} categoryName={item.name} />
                   </span>
-                  <span className="picker-row-name">{item.name}</span>
+                  <span className="picker-row-name">{cat(item)}</span>
                 </button>
               ))}
             </div>

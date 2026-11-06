@@ -23,7 +23,7 @@ export default {
   name: "Имя",
   phone: "Телефон",
   confirm: "Сохранить",
-  orderStatus1: "Ищем исполнителя",
+  orderStatus1: "Новый",
   orderStatus2: "В работе",
   orderStatus3: "Выполнен",
   orderStatus0: "Отменен",

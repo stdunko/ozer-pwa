@@ -23,7 +23,7 @@ export default {
   name: "Name",
   phone: "Phone",
   confirm: "Confirm",
-  orderStatus1: "Looking for a performer",
+  orderStatus1: "New",
   orderStatus2: "At work",
   orderStatus3: "Completed",
   orderStatus0: "Cancelled",
