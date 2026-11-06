@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setToken } from "./store/authSlice";
 import { setUser } from "./store/userSlice";
@@ -20,6 +20,26 @@ import OrderScreen from "./screens/OrderScreen";
 import ChatListScreen from "./screens/ChatListScreen";
 import ChatScreen from "./screens/ChatScreen";
 import AboutScreen from "./screens/AboutScreen";
+
+const SwNavigation = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) {
+      return;
+    }
+    const onMessage = (event: MessageEvent) => {
+      if (event.data?.type === "NAVIGATE" && typeof event.data.url === "string") {
+        const path = event.data.url.replace(window.location.origin, "") || "/app/orders";
+        navigate(path);
+      }
+    };
+    navigator.serviceWorker.addEventListener("message", onMessage);
+    return () => navigator.serviceWorker.removeEventListener("message", onMessage);
+  }, [navigate]);
+
+  return null;
+};
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -64,6 +84,8 @@ const App = () => {
   }
 
   return (
+    <>
+    <SwNavigation />
     <Routes>
       {!token ? (
         <>
@@ -87,6 +109,7 @@ const App = () => {
         </>
       )}
     </Routes>
+    </>
   );
 };
 

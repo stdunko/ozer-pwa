@@ -16,10 +16,12 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import { useAppSelector } from "../store/hooks";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setChatUnread } from "../store/liveSlice";
 import { compressImageFile } from "../utils/image";
 import type { Chat } from "../types/chat";
 import AppHeader from "../components/AppHeader";
+import PersonAvatar from "../components/PersonAvatar";
 
 type ChatMessage = {
   _id: string;
@@ -51,6 +53,7 @@ const ChatScreen = () => {
   const location = useLocation();
   const chat = (location.state as { chat?: Chat } | null)?.chat;
   const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [text, setText] = useState("");
   const [preview, setPreview] = useState("");
@@ -64,20 +67,25 @@ const ChatScreen = () => {
     (member) => (member.id ?? member.user_id ?? member.executor_id) !== user.id
   );
   const recipientId = anotherUser?.id ?? anotherUser?.user_id ?? anotherUser?.executor_id;
-  const title = chat?.participants?.find((p) => p.executor_id)?.name ?? t("chats");
+  const executor = chat?.participants?.find((p) => p.executor_id);
+  const title = executor?.name ?? t("chats");
 
   const markAsReadForRecipient = useCallback(async () => {
     if (!chatId || !user.id) return;
     const messagesRef = collection(db, "chats", chatId, "messages");
     const unreadQuery = query(messagesRef, where(`isRead.${user.id}`, "==", false));
     const snapshot = await getDocs(unreadQuery);
-    if (snapshot.empty) return;
+    if (snapshot.empty) {
+      dispatch(setChatUnread({ chatId, unread: 0 }));
+      return;
+    }
     const batch = writeBatch(db);
     snapshot.docs.forEach((docSnap) => {
       batch.update(docSnap.ref, { [`isRead.${user.id}`]: true });
     });
     await batch.commit();
-  }, [chatId, user.id]);
+    dispatch(setChatUnread({ chatId, unread: 0 }));
+  }, [chatId, dispatch, user.id]);
 
   useLayoutEffect(() => {
     if (!chatId) {
@@ -187,7 +195,18 @@ const ChatScreen = () => {
 
   return (
     <div className="screen">
-      <AppHeader title={title} back />
+      <AppHeader
+        title={title}
+        back
+        avatar={
+          <PersonAvatar
+            className="header-avatar"
+            name={title}
+            photo={executor?.photo}
+            executorId={executor?.executor_id}
+          />
+        }
+      />
       {chronological.length === 0 ? (
         <div className="center-col">
           <div className="category-icon" style={{ width: 72, height: 72, borderRadius: 36, marginBottom: 16 }}>

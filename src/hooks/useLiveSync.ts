@@ -11,6 +11,7 @@ import type { Chat } from "../types/chat";
 import type { Order } from "../types/order";
 import { getChatTimestampMs } from "../utils/chat";
 import { ORDERS_POLL_INTERVAL_MS, reportOrderStatusChanges } from "../utils/orderSync";
+import { notifyIfHidden } from "./usePushNotifications";
 
 const mergeChats = (current: Chat[], incoming: Chat[]) => {
   const next = new Map(current.map((chat) => [chat.id, chat]));
@@ -25,8 +26,10 @@ export const useLiveSync = () => {
   const token = useAppSelector((state) => state.authorization.token);
   const userId = useAppSelector((state) => state.user.id);
   const orders = useAppSelector((state) => state.live.orders);
+  const refreshNonce = useAppSelector((state) => state.live.refreshNonce);
   const ordersRef = useRef(orders);
   const chatBucketsRef = useRef<Chat[][]>([[], []]);
+  const refreshNonceRef = useRef(refreshNonce);
 
   ordersRef.current = orders;
 
@@ -39,16 +42,22 @@ export const useLiveSync = () => {
       if (error) {
         if (!silent) {
           showApiError(error, "errorLoadOrders");
+          dispatch(setOrders(ordersRef.current));
         }
         return;
       }
       if (!response?.data) {
+        if (!silent) {
+          dispatch(setOrders(ordersRef.current));
+        }
         return;
       }
       const nextOrders = response.data as Order[];
       if (silent) {
         reportOrderStatusChanges(ordersRef.current, nextOrders, ({ categoryName, statusKey }) => {
-          showInfo(t("orderStatusUpdated", { category: categoryName, status: t(statusKey) }));
+          const message = t("orderStatusUpdated", { category: categoryName, status: t(statusKey) });
+          showInfo(message);
+          notifyIfHidden(categoryName || "Ozer", t(statusKey), "/app/orders");
         });
       }
       dispatch(setOrders(nextOrders));
@@ -85,6 +94,7 @@ export const useLiveSync = () => {
 
   useEffect(() => {
     if (!token || !userId) {
+      dispatch(setChatsLoading(false));
       return;
     }
 
@@ -127,4 +137,12 @@ export const useLiveSync = () => {
       }
     });
   }, [dispatch, token, userId]);
+
+  useEffect(() => {
+    if (!token || refreshNonce === refreshNonceRef.current) {
+      return;
+    }
+    refreshNonceRef.current = refreshNonce;
+    void loadOrders(true);
+  }, [loadOrders, refreshNonce, token]);
 };

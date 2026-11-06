@@ -30,6 +30,7 @@ const ProfileScreen = () => {
   const [photo, setPhoto] = useState(user.photo || "");
   const [saveLoading, setSaveLoading] = useState(false);
   const [photoLoading, setPhotoLoading] = useState(false);
+  const [logoutVisible, setLogoutVisible] = useState(false);
 
   useEffect(() => {
     setEmail(user?.email ?? "");
@@ -157,9 +158,25 @@ const ProfileScreen = () => {
             disabled={saveLoading || !isFormChanged || name === ""}
           />
           <PrimaryButton title={t("aboutTitle")} variant="secondary" onPress={() => navigate("/app/about")} />
-          <PrimaryButton title={t("logOut")} variant="secondary" onPress={logOut} className="btn-logout" />
+          <PrimaryButton title={t("logOut")} variant="secondary" onPress={() => setLogoutVisible(true)} className="btn-logout" />
         </div>
       </div>
+      {logoutVisible ? (
+        <div className="modal-backdrop center" onClick={() => setLogoutVisible(false)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <h3 className="sheet-title">{t("logOutTitle")}</h3>
+            <p className="hint" style={{ marginTop: 12 }}>{t("logOutConfirm")}</p>
+            <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+              <button type="button" className="btn btn-secondary" onClick={() => setLogoutVisible(false)}>
+                {t("cancel")}
+              </button>
+              <button type="button" className="btn btn-danger" onClick={logOut}>
+                {t("logOut")}
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

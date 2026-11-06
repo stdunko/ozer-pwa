@@ -7,6 +7,8 @@ type LiveState = {
   chats: Chat[];
   ordersLoading: boolean;
   chatsLoading: boolean;
+  unreadByChatId: Record<string, number>;
+  refreshNonce: number;
 };
 
 const initialState: LiveState = {
@@ -14,6 +16,8 @@ const initialState: LiveState = {
   chats: [],
   ordersLoading: true,
   chatsLoading: true,
+  unreadByChatId: {},
+  refreshNonce: 0,
 };
 
 const liveSlice = createSlice({
@@ -37,10 +41,24 @@ const liveSlice = createSlice({
     removeOrder: (state, action: PayloadAction<number>) => {
       state.orders = state.orders.filter((order) => order.id !== action.payload);
     },
+    setChatUnread: (state, action: PayloadAction<{ chatId: string; unread: number }>) => {
+      state.unreadByChatId[action.payload.chatId] = action.payload.unread;
+    },
+    requestLiveRefresh: (state) => {
+      state.refreshNonce += 1;
+    },
     resetLive: () => initialState,
   },
 });
 
-export const { setOrders, setChats, setOrdersLoading, setChatsLoading, removeOrder, resetLive } =
-  liveSlice.actions;
+export const {
+  setOrders,
+  setChats,
+  setOrdersLoading,
+  setChatsLoading,
+  removeOrder,
+  setChatUnread,
+  requestLiveRefresh,
+  resetLive,
+} = liveSlice.actions;
 export default liveSlice.reducer;

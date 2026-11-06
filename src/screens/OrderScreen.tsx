@@ -1,16 +1,18 @@
 import { useCallback, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Funnel } from "lucide-react";
+import { ClipboardList, Funnel } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { deleteOrder } from "../services/api";
 import { useNotifier } from "../components/AppNotifier";
 import AppHeader from "../components/AppHeader";
 import OrderItem from "../components/OrderItem";
 import OrderFiltersModal from "../components/OrderFiltersModal";
+import PullToRefresh from "../components/PullToRefresh";
+import PrimaryButton from "../components/PrimaryButton";
 import { defaultOrderFilters, type OrderFiltersState } from "../types/order";
 import { filterOrders, hasActiveOrderFilters } from "../utils/orderUtils";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { removeOrder } from "../store/liveSlice";
+import { removeOrder, requestLiveRefresh } from "../store/liveSlice";
 
 const OrderScreen = () => {
   const { t } = useTranslation();
@@ -42,6 +44,11 @@ const OrderScreen = () => {
     [dispatch, showApiError, showSuccess]
   );
 
+  const onRefresh = async () => {
+    dispatch(requestLiveRefresh());
+    await new Promise((resolve) => setTimeout(resolve, 600));
+  };
+
   const listEmptyText =
     orders.length > 0 && filtersActive ? t("ordersNotFound") : t("yourOrdersEmpty");
 
@@ -61,9 +68,17 @@ const OrderScreen = () => {
           <span className="spinner" />
         </div>
       ) : (
-        <div className="scroll pad">
+        <PullToRefresh onRefresh={onRefresh} className="pad">
           {filteredOrders.length === 0 ? (
-            <p className="empty">{listEmptyText}</p>
+            <div className="empty-state">
+              <div className="empty-icon">
+                <ClipboardList size={32} />
+              </div>
+              <p className="empty">{listEmptyText}</p>
+              {!filtersActive ? (
+                <PrimaryButton title={t("createOrder")} onPress={() => navigate("/app/categories")} />
+              ) : null}
+            </div>
           ) : (
             filteredOrders.map((item) => (
               <OrderItem
@@ -77,7 +92,7 @@ const OrderScreen = () => {
               />
             ))
           )}
-        </div>
+        </PullToRefresh>
       )}
       <OrderFiltersModal
         isVisible={isFiltersVisible}

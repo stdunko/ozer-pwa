@@ -156,7 +156,15 @@ img {
   font-weight: 600;
   color: var(--text);
   flex: 1;
-  text-align: center;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.header-title-text {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -167,7 +175,8 @@ img {
 }
 
 .header-side {
-  min-width: 72px;
+  min-width: 40px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -226,6 +235,7 @@ img {
 }
 
 .tab-icon {
+  position: relative;
   padding: 6px;
   border-radius: 12px;
   display: flex;
@@ -643,6 +653,8 @@ img {
 }
 
 .executor-box {
+  display: flex;
+  align-items: center;
   padding-top: 8px;
   margin-top: 8px;
   border-top: 1px solid var(--border);
@@ -1469,4 +1481,100 @@ html[dir="rtl"] .bubble.in {
   align-items: center;
   justify-content: center;
   margin-bottom: 8px;
+}
+
+.empty-state .btn {
+  max-width: 280px;
+  margin-top: 8px;
+}
+
+.tab-badge,
+.chat-unread-dot {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--error);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.chat-avatar-wrap {
+  position: relative;
+  margin-inline-end: 12px;
+  flex-shrink: 0;
+}
+
+.chat-avatar-wrap .avatar {
+  margin-inline-end: 0;
+}
+
+.chat-preview.unread {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.avatar.header-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 14px;
+  margin: 0;
+  font-size: 11px;
+}
+
+.avatar.executor-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  margin-inline-end: 12px;
+  font-size: 14px;
+}
+
+.ptr-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: height 0.12s ease;
+}
+
+.ptr-indicator .spinner {
+  width: 22px;
+  height: 22px;
+}
+
+.about-lead {
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.about-card {
+  padding: 8px 16px;
+}
+
+.about-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+}
+
+.about-row:last-child {
+  border-bottom: none;
+}
+
+.about-row .muted {
+  margin-bottom: 0;
 }

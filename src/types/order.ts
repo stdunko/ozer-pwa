@@ -11,7 +11,7 @@ export type Order = {
   longitude?: number;
   createdAt?: string;
   created_at?: string;
-  executor?: { id: number; name?: string; phone?: string };
+  executor?: { id: number; name?: string; phone?: string; photo?: string | null };
   executorId?: number | null;
   category: Pick<CategoryType, "id" | "name">;
 };

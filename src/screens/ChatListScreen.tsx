@@ -1,13 +1,24 @@
 import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import AppHeader from "../components/AppHeader";
 import RenderChatUser from "../components/RenderChatUser";
-import { useAppSelector } from "../store/hooks";
+import PullToRefresh from "../components/PullToRefresh";
+import PrimaryButton from "../components/PrimaryButton";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { requestLiveRefresh } from "../store/liveSlice";
 
 const ChatListScreen = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const chats = useAppSelector((state) => state.live.chats);
   const isChatLoading = useAppSelector((state) => state.live.chatsLoading);
+
+  const onRefresh = async () => {
+    dispatch(requestLiveRefresh());
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  };
 
   return (
     <div className="screen">
@@ -22,13 +33,14 @@ const ChatListScreen = () => {
             <MessageCircle size={32} />
           </div>
           <p className="empty">{t("yourChatsEmpty")}</p>
+          <PrimaryButton title={t("createOrder")} onPress={() => navigate("/app/categories")} />
         </div>
       ) : (
-        <div className="scroll chat-list">
+        <PullToRefresh onRefresh={onRefresh} className="chat-list">
           {chats.map((item) => (
             <RenderChatUser key={item.id} item={item} />
           ))}
-        </div>
+        </PullToRefresh>
       )}
     </div>
   );

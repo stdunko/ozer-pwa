@@ -55,13 +55,9 @@ const CreateOrderScreen = () => {
     return <Navigate to="/app/categories" replace />;
   }
 
-  const onPress = async () => {
+  const submitOrder = async () => {
     if (!hasValidCoords(latitude, longitude)) {
       showApiError(new Error("invalid coordinates"), "errorCreateOrder");
-      return;
-    }
-    if (!user.name || !user.email) {
-      setNameModalVisible(true);
       return;
     }
     setIsLoading(true);
@@ -80,6 +76,14 @@ const CreateOrderScreen = () => {
     }
     showSuccess("successOrderCreated");
     navigate("/app/orders", { replace: false });
+  };
+
+  const onPress = async () => {
+    if (!user.name || !user.email) {
+      setNameModalVisible(true);
+      return;
+    }
+    await submitOrder();
   };
 
   return (
@@ -131,7 +135,14 @@ const CreateOrderScreen = () => {
           />
         </div>
       </div>
-      <NameModal isVisible={nameModalVisible} onClose={() => setNameModalVisible(false)} />
+      <NameModal
+        isVisible={nameModalVisible}
+        onClose={() => setNameModalVisible(false)}
+        onSaved={() => {
+          setNameModalVisible(false);
+          void submitOrder();
+        }}
+      />
     </div>
   );
 };

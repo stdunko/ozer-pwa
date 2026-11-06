@@ -15,6 +15,7 @@ import { useAppSelector } from "../store/hooks";
 import type { Order } from "../types/order";
 import { formatOrderDate } from "../utils/orderUtils";
 import ExecutorGeo from "./ExecutorGeo";
+import PersonAvatar from "./PersonAvatar";
 
 type OrderItemProps = {
   item: Order;
@@ -81,8 +82,8 @@ const OrderItem = ({
     const docRef = await addDoc(collection(db, "chats"), {
       participantsIds: [user.id, item.executor.id],
       participants: [
-        { user_id: user.id, name: user.name },
-        { executor_id: item.executor.id, name: item.executor.name || "No ext name" },
+        { user_id: user.id, name: user.name, photo: user.photo },
+        { executor_id: item.executor.id, name: item.executor.name || "No ext name", photo: item.executor.photo },
       ],
       lastMessageTimestamp: Timestamp.now(),
     });
@@ -108,9 +109,17 @@ const OrderItem = ({
       </button>
       {item.executor ? (
         <div className="executor-box">
-          <div className="muted">{t("executor")}</div>
-          <div className="executor-name">{item.executor.name}</div>
-          <div className="muted">{item.executor.phone}</div>
+          <PersonAvatar
+            className="executor-avatar"
+            name={item.executor.name}
+            photo={item.executor.photo}
+            executorId={item.executor.id}
+          />
+          <div>
+            <div className="muted">{t("executor")}</div>
+            <div className="executor-name">{item.executor.name}</div>
+            <div className="muted">{item.executor.phone}</div>
+          </div>
         </div>
       ) : null}
       <div className="order-footer">

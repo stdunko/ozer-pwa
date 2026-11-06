@@ -6,6 +6,7 @@ export interface UserState {
   email?: string | null;
   phone: string;
   photo?: string | null;
+  pushSubscription?: string | null;
   status?: number;
 }
 

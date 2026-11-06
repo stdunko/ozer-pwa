@@ -3,6 +3,7 @@ export type ChatParticipant = {
   user_id?: number;
   executor_id?: number;
   name?: string;
+  photo?: string | null;
 };
 
 export type Chat = {
