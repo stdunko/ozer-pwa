@@ -58,7 +58,7 @@ const OrderScreen = () => {
         title={t("orders")}
         right={
           <button type="button" className="icon-btn relative" onClick={() => setFiltersVisible(true)}>
-            <Funnel size={22} fill={filtersActive ? "#00656D" : "none"} />
+            <Funnel size={22} fill={filtersActive ? "currentColor" : "none"} />
             {filtersActive ? <span className="filter-badge" /> : null}
           </button>
         }
