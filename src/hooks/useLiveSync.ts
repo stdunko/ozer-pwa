@@ -79,11 +79,11 @@ export const useLiveSync = () => {
       }
       const nextOrders = response.data as Order[];
       if (silent) {
-        reportOrderStatusChanges(ordersRef.current, nextOrders, ({ categoryName, statusKey }) => {
+        reportOrderStatusChanges(ordersRef.current, nextOrders, ({ categoryName, statusKey, orderId }) => {
           const category = categoryLabel(categoryName, i18n.language);
           const message = t("orderStatusUpdated", { category, status: t(statusKey) });
           showInfo(message);
-          notifyIfHidden(category || "Ozeril", t(statusKey), "/app/orders");
+          notifyIfHidden(category || "Ozeril", t(statusKey), `/app/orders/${orderId}`);
         });
       }
       dispatch(setOrders(nextOrders));

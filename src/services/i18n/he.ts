@@ -57,7 +57,7 @@ export default {
   noMessages: "אין הודעות",
   image: "תמונה",
   chatPlaceholder: "הודעה...",
-  chatEmpty: "התחילו שיחה — שלחו הודעה ראשונה",
+  chatEmpty: "התחילו שיחה\nשלחו הודעה ראשונה",
   deleteOrder: "מחק הזמנה",
   deleteOrderTitle: "למחוק הזמנה?",
   deleteOrderConfirm: "עדיין לא נמצא מבצע. ההזמנה תימחק לצמיתות.",

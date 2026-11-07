@@ -139,6 +139,20 @@ export const getMyOrders = async () => {
   return { error, response };
 };
 
+export const notifyChatPush = async (payload: {
+  chatId: string;
+  recipientId: number;
+  to: "user" | "executor";
+  title?: string;
+  preview?: string;
+}) => {
+  try {
+    await api.post("/messaging/chat-push", payload);
+  } catch (e) {
+    console.error("Error sending chat push:", e);
+  }
+};
+
 export const deleteOrder = async (orderId: number) => {
   let error;
   let response;

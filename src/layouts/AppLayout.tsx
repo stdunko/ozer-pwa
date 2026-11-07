@@ -1,6 +1,7 @@
 import { Outlet, matchPath, useLocation } from "react-router-dom";
 import TabBar from "../components/TabBar";
 import { useLiveSync } from "../hooks/useLiveSync";
+import { useNavMotion } from "../hooks/useNavMotion";
 import { usePushNotifications } from "../hooks/usePushNotifications";
 
 const hideTabBarOn = (pathname: string) =>
@@ -16,10 +17,11 @@ const AppLayout = () => {
   useLiveSync();
   usePushNotifications();
   const hideTabBar = hideTabBarOn(location.pathname);
+  const motion = useNavMotion();
 
   return (
     <div className="app-layout">
-      <div className="app-layout-body">
+      <div className={`app-layout-body nav-${motion}`}>
         <Outlet />
       </div>
       {hideTabBar ? null : <TabBar />}

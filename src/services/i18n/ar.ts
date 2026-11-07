@@ -57,7 +57,7 @@ export default {
   noMessages: "لا توجد رسائل",
   image: "صورة",
   chatPlaceholder: "رسالة...",
-  chatEmpty: "ابدأ المحادثة — أرسل الرسالة الأولى",
+  chatEmpty: "ابدأ المحادثة\nأرسل الرسالة الأولى",
   deleteOrder: "حذف الطلب",
   deleteOrderTitle: "حذف الطلب؟",
   deleteOrderConfirm: "لم يتم العثور على منفذ بعد. سيتم حذف الطلب نهائياً.",

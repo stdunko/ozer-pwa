@@ -57,7 +57,7 @@ export default {
   noMessages: "No messages",
   image: "Image",
   chatPlaceholder: "Message...",
-  chatEmpty: "Start the conversation — send the first message",
+  chatEmpty: "Start the conversation\nSend the first message",
   deleteOrder: "Delete order",
   deleteOrderTitle: "Delete order?",
   deleteOrderConfirm: "No executor has been assigned yet. This order will be permanently deleted.",
