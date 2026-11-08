@@ -15,6 +15,7 @@ import GreetingScreen from "./screens/GreetingScreen";
 import EnterNumberScreen from "./screens/EnterNumberScreen";
 import EnterOtpScreen from "./screens/EnterOtpScreen";
 import HomeScreen from "./screens/HomeScreen";
+import AssistantScreen from "./screens/AssistantScreen";
 import CreateOrderScreen from "./screens/CreateOrderScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import OrderScreen from "./screens/OrderScreen";
@@ -144,6 +145,7 @@ const App = () => {
       ) : (
         <>
           <Route path="/app" element={<AppLayout />}>
+            <Route path="assistant" element={<AssistantScreen />} />
             <Route path="categories" element={<HomeScreen />} />
             <Route path="create-order" element={<CreateOrderScreen />} />
             <Route path="profile" element={<ProfileScreen />} />

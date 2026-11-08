@@ -153,6 +153,25 @@ export const notifyChatPush = async (payload: {
   }
 };
 
+export const assistantTurn = async (payload: {
+  messages: Array<{ role: "user" | "assistant"; content: string }>;
+  locale?: string;
+  categoryId?: number | null;
+  description?: string | null;
+  price?: number | null;
+  hasLocation?: boolean;
+}) => {
+  let error;
+  let response;
+  try {
+    response = await api.post("/assistant/turn", payload);
+  } catch (e) {
+    error = e;
+    console.error("Error assistant turn:", e);
+  }
+  return { error, response };
+};
+
 export const deleteOrder = async (orderId: number) => {
   let error;
   let response;

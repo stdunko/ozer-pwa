@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const tabRoot = (path: string) => {
+  if (path.startsWith("/app/assistant")) return "assistant";
   if (path.startsWith("/app/chats")) return "chats";
   if (path.startsWith("/app/orders")) return "orders";
   if (path.startsWith("/app/profile") || path.startsWith("/app/about")) return "profile";

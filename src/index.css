@@ -366,9 +366,12 @@ html[dir="rtl"] .nav-back > .screen {
   justify-content: center;
   text-decoration: none;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   gap: 2px;
+  min-width: 0;
+  padding: 0 2px;
+  text-align: center;
 }
 
 .tabbar a.active {
@@ -1590,6 +1593,80 @@ html[dir="rtl"] .bubble.in {
   outline: none;
   background: var(--surface);
   box-shadow: var(--shadow);
+}
+
+.assistant-bubble-mark {
+  display: inline-flex;
+  margin-bottom: 4px;
+  color: var(--primary);
+}
+
+.assistant-typing {
+  align-self: flex-start;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 0 8px;
+}
+
+.assistant-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 4px 8px;
+}
+
+.assistant-chips-label {
+  width: 100%;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.assistant-chips .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.assistant-map {
+  flex-shrink: 0;
+  padding: 0 12px 8px;
+}
+
+.assistant-map .google-map-wrap,
+.assistant-map .google-map {
+  height: 180px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.assistant-map-hint {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.assistant-pin-btn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.assistant-draft {
+  flex-shrink: 0;
+  padding: 0 16px 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.assistant-create {
+  flex-shrink: 0;
+  padding: 0 16px 8px;
 }
 
 .modal-backdrop {
