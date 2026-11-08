@@ -16,6 +16,7 @@ import { useNotifier } from "../components/AppNotifier";
 import AppHeader from "../components/AppHeader";
 import AppTextInput from "../components/AppTextInput";
 import PrimaryButton from "../components/PrimaryButton";
+import PushSettings from "../components/PushSettings";
 
 const ProfileScreen = () => {
   const { t } = useTranslation();
@@ -148,6 +149,7 @@ const ProfileScreen = () => {
               <AppTextInput icon={Mail} value={email} onChange={(e) => setEmail(e.target.value)} placeholder={t("email")} />
               <AppTextInput icon={Phone} value={user.phone} readOnly placeholder={t("phone")} />
             </div>
+            <PushSettings />
           </>
         )}
         <div className="profile-actions">

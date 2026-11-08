@@ -83,7 +83,7 @@ export const useLiveSync = () => {
           const category = categoryLabel(categoryName, i18n.language);
           const message = t("orderStatusUpdated", { category, status: t(statusKey) });
           showInfo(message);
-          notifyIfHidden(category || "Ozeril", t(statusKey), `/app/orders/${orderId}`);
+          notifyIfHidden(category || "Ozeril", t(statusKey), `/app/orders/${orderId}`, "orders");
         });
       }
       dispatch(setOrders(nextOrders));
